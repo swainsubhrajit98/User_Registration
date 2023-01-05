@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from App.forms import *
 from django.http import HttpResponse
+from django.core.mail import send_mail
 # Create your views here.
 
 def Home(request):
@@ -21,5 +22,12 @@ def Registration(request):
             PO=PD.save(commit=False)
             PO.user=USO
             PO.save()
+            
+            send_mail('User Registration',
+                      'Registration Done Successfully!!!',
+                      'swainsubhrajit98@gmail.com',
+                      [USO.email],
+                      fail_silently=False)
+            
             return HttpResponse('Register Successfully Done!!!')
     return render(request,'Registration.html',d)
