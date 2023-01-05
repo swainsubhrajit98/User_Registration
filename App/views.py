@@ -23,11 +23,12 @@ def Registration(request):
             PO.user=USO
             PO.save()
             
-            send_mail('User Registration',
-                      'Registration Done Successfully!!!',
-                      'swainsubhrajit98@gmail.com',
-                      [USO.email],
-                      fail_silently=False)
+            
+            send_mail('registration',
+                'Successfully Registered',
+                '99swain@gmail.com',
+                [USO.email],
+                fail_silently=False)
             
             return HttpResponse('Register Successfully Done!!!')
     return render(request,'Registration.html',d)
