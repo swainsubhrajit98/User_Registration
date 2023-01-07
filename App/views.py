@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from App.models import *
 # Create your views here.
 
 
@@ -34,7 +35,7 @@ def Registration(request):
             PO.save()
             
             
-            send_mail('registration',
+            send_mail('Registration',
                 'Successfully Registered',
                 '99swain@gmail.com',
                 [USO.email],
@@ -57,4 +58,23 @@ def User_Login(request):
 @login_required
 def User_LogOut(request):
     logout(request)
-    return HttpResponsePermanentRedirect(reverse(Home))
+    return HttpResponsePermanentRedirect(reverse('Home'))
+
+@login_required
+def Profile_Info(request):
+    username=request.session.get('username')
+    USD=User.objects.get(username=username)
+    PFD=Profile.objects.get(user=USD)
+    d={'USD':USD,'PFD':PFD}
+    return render(request,'Profile_Info.html',d)
+
+@login_required
+def Change_Password(request):
+    if request.method=='POST':
+        username=request.session['username']
+        password=request.POST['password']
+        user=User.objects.get(username=username)
+        user.set_password(password)
+        user.save()
+        return HttpResponse('Password is Changed Successfully')
+    return render(request,'Change_Password.html')

@@ -1,0 +1,16 @@
+{% extends 'Dummy.html' %}
+
+
+{% block title %}
+    <title>Profile Information Page</title>
+
+{% endblock %}
+
+
+{% block body_block %}
+    <h1>User Username is {{USD.username}}</h1>
+    <h1>User Email id is {{USD.email}}</h1>
+    <h1>User Address is {{PFD.address}}</h1>
+    <h1>User Profile Picture is </h1>
+    <img src="{{PFD.profile_pic.url}}" alt="" height="500px" width="800px">
+{% endblock %}
