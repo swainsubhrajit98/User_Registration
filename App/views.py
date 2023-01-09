@@ -71,10 +71,23 @@ def Profile_Info(request):
 @login_required
 def Change_Password(request):
     if request.method=='POST':
-        username=request.session['username']
+        username=request.session.get['username']
         password=request.POST['password']
         user=User.objects.get(username=username)
         user.set_password(password)
         user.save()
-        return HttpResponse('Password is Changed Successfully')
+        return HttpResponsePermanentRedirect(reverse('User_Login'))
     return render(request,'Change_Password.html')
+
+def Reset_Password(request):
+    if request.method=='POST':
+        username=request.POST['username']
+        password=request.POST['password']
+        LUSO=User.objects.filter(username=username)
+        if LUSO:
+            LUSO[0].set_password(password)
+            LUSO[0].save()
+            return HttpResponsePermanentRedirect(reverse('User_Login'))
+        else:
+            return HttpResponse('Username is Not Available Try After Sometime')
+    return render(request,'Reset_Password.html')
